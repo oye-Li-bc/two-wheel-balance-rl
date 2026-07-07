@@ -1,0 +1,35 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+.conda/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Jupyter / IDE
+.ipynb_checkpoints/
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Training artifacts (保留最终发布的 model_final.pt / policy_actor.npz;
+# 忽略训练过程中间检查点与临时输出)
+src/balance_rl/logs/**/model_*[0-9].pt
+src/balance_rl/logs/**/*_before.pt
+src/balance_rl/logs/**/*_rewardfix.pt
+*.tmp
+*.log

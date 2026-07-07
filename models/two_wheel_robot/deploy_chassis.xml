@@ -1,0 +1,54 @@
+<mujoco model="dipan4">
+  <compiler angle="radian"/>
+  <option gravity="0 0 -9.81" timestep="0.002" integrator="implicitfast"/>
+
+  <asset>
+    <mesh name="base_link" content_type="model/stl" file="meshes/base_link.STL"/>
+    <mesh name="left_link" content_type="model/stl" file="meshes/left_link.STL"/>
+    <mesh name="left_wheel_link" content_type="model/stl" file="meshes/left_wheel_link.STL"/>
+    <mesh name="right_link" content_type="model/stl" file="meshes/right_link.STL"/>
+    <mesh name="right_wheel_link" content_type="model/stl" file="meshes/right_wheel_link.STL"/>
+  </asset>
+
+  <worldbody>
+    <geom name="ground" type="plane" size="0 0 0.1" rgba="0.55 0.65 0.55 1"/>
+    <light pos="0 0 3" dir="0 0 -1" diffuse="0.8 0.8 0.8"/>
+    <body name="chassis" pos="0 0 0.18">
+      <freejoint name="chassis_free"/>
+      <!-- ★必须显式写 inertial: 否则 MuJoCo 用网格体积×默认密度1000 把基座算成18kg(超标7.7倍),
+           导致 sim-to-sim 训练的平衡策略搬来必倒。以下 mass/质心/惯量来自 URDF base_link。
+           MuJoCo fullinertia 顺序 = ixx iyy izz ixy ixz iyz。 -->
+      <inertial pos="-0.0457968657842876 -0.180241780708222 0.168747438914393"
+                mass="2.34280452853847"
+                fullinertia="0.0270841555878279 0.0245632562724463 0.0250526892590732 5.27026246917446e-06 0.000518162889673859 -2.85242084819199e-05"/>
+      <geom type="mesh" rgba="1 1 1 1" mesh="base_link"/>
+    <body name="left_link" pos="-0.048652 -0.325 0.13732" quat="0.679949 0.679952 -0.19408 0.194081">
+      <inertial pos="0.0161615 0.00634486 -0.00263769" quat="-0.150704 0.57566 0.108952 0.796262" mass="0.12854" diaginertia="0.000127084 0.000118553 3.68456e-05"/>
+      <joint name="left_hip_joint" pos="0 0 0" axis="0 0 1"/>
+      <geom type="mesh" rgba="1 1 1 1" mesh="left_link"/>
+      <body name="left_wheel_link" pos="0.046542 0.018272 0.035">
+        <inertial pos="-4.89341e-12 1.85397e-06 8.33036e-11" quat="0 0.707107 0 0.707107" mass="2.66876" diaginertia="0.0330385 0.016893 0.0168925"/>
+        <joint name="left_wheel_joint" pos="0 0 0" axis="0 0 1" armature="0.01" damping="0.0"/>
+        <geom type="mesh" rgba="1 1 1 1" mesh="left_wheel_link"/>
+      </body>
+    </body>
+    <body name="right_link" pos="-0.048652 -0.015 0.13732" quat="0.0298284 -0.706476 0.706479 -0.0298285">
+      <inertial pos="0.0226377 0 -0.0173623" quat="0.987318 0 0.158758 0" mass="0.12854" diaginertia="0.000127084 0.000118553 3.68456e-05"/>
+      <joint name="right_hip_joint" pos="0 0 0" axis="1 0 0"/>
+      <geom type="mesh" rgba="1 1 1 1" mesh="right_link"/>
+      <body name="right_wheel_link" pos="0 0 -0.05" quat="0.679764 -0.194732 0.679765 -0.194732">
+        <inertial pos="-4.89339e-12 1.85397e-06 -0.015" quat="0 0.707107 0 0.707107" mass="2.66876" diaginertia="0.0330385 0.016893 0.0168925"/>
+        <joint name="right_wheel_joint" pos="0 0 0" axis="0 0 1" armature="0.01" damping="0.0"/>
+        <geom type="mesh" rgba="1 1 1 1" mesh="right_wheel_link"/>
+      </body>
+    </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor name="left_wheel"  joint="left_wheel_joint"  ctrlrange="-20 20" gear="1"/>
+    <motor name="right_wheel" joint="right_wheel_joint" ctrlrange="-20 20" gear="1"/>
+    <position name="left_hip"  joint="left_hip_joint"  kp="200" kv="10"/>
+    <position name="right_hip" joint="right_hip_joint" kp="200" kv="10"/>
+  </actuator>
+</mujoco>

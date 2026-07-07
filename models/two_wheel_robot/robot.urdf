@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ========================================
+     两轮机器人URDF文件（带详细注释）
+     从SolidWorks导出，已修正mesh路径
+     ======================================== -->
+<robot name="dipan3">
+
+  <!-- ========================================
+       车身 (base_link)
+       ======================================== -->
+  <link name="base_link">
+    <!-- 惯性参数（从SolidWorks自动计算） -->
+    <inertial>
+      <!-- origin: 质心位置和姿态
+           xyz: 质心相对于link坐标系的位置 [x, y, z] (米)
+           rpy: 质心的姿态 [roll, pitch, yaw] (弧度) -->
+      <origin xyz="-0.0457968657842876 -0.180241780708222 0.168747438914393" rpy="0 0 0"/>
+
+      <!-- mass: 质量 (kg) -->
+      <mass value="2.34280452853847"/>
+
+      <!-- inertia: 惯性矩阵
+           ixx, iyy, izz: 对角元素
+           ixy, ixz, iyz: 非对角元素 -->
+      <inertia ixx="0.0270841555878279" ixy="5.27026246917446E-06" ixz="0.000518162889673859"
+               iyy="0.0245632562724463" iyz="-2.85242084819199E-05" izz="0.0250526892590732"/>
+    </inertial>
+
+    <!-- 视觉模型（用于显示） -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <!-- mesh: STL文件路径 -->
+        <mesh filename="meshes/base_link.STL"/>
+      </geometry>
+      <material name="">
+        <!-- color: RGBA颜色 [红, 绿, 蓝, 透明度]，范围0-1 -->
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+
+    <!-- 碰撞模型（用于物理仿真） -->
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/base_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========================================
+       左侧轴 (left_link)
+       ======================================== -->
+  <link name="left_link">
+    <inertial>
+      <origin xyz="-0.0303803213063577 -0.0119270745134744 -0.0376376933793964" rpy="0 0 0"/>
+      <mass value="0.128539816339745"/>
+      <inertia ixx="5.54411480230313E-05" ixy="-2.47771833064358E-05" ixz="-2.50049220086457E-05"
+               iyy="0.000108825591833062" iyz="-9.81673514882238E-06" izz="0.000118216123210881"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/left_link.STL"/>
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/left_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========================================
+       左髋关节 (left_hip_joint)
+       连接 base_link 和 left_link
+       ======================================== -->
+  <joint name="left_hip_joint" type="continuous">
+    <!-- origin: 子link相对于父link的位置和姿态
+         xyz: 位置偏移 [x, y, z] (米)
+         rpy: 姿态 [roll, pitch, yaw] (弧度) -->
+    <origin xyz="-0.018768 -0.36 0.1774" rpy="1.5708 -0.55608 0"/>
+
+    <!-- parent: 父link -->
+    <parent link="base_link"/>
+
+    <!-- child: 子link -->
+    <child link="left_link"/>
+
+    <!-- axis: 关节旋转轴方向 [x, y, z]
+         [1, 0, 0] = 绕X轴旋转
+         [0, 1, 0] = 绕Y轴旋转
+         [0, 0, 1] = 绕Z轴旋转
+
+         ⚠️ 修改这里可以改变关节的旋转方向 -->
+    <axis xyz="0 0 1"/>
+
+    <!-- type: 关节类型
+         continuous: 连续旋转（无限位）
+         revolute: 旋转关节（有限位）
+         prismatic: 移动关节
+         fixed: 固定关节 -->
+  </joint>
+
+  <!-- ========================================
+       左轮 (left_wheel_link)
+       ======================================== -->
+  <link name="left_wheel_link">
+    <inertial>
+      <origin xyz="-4.89340512555003E-12 1.85397498783657E-06 8.33036417624555E-11" rpy="0 0 0"/>
+      <mass value="2.66875504346553"/>
+      <inertia ixx="0.0168925048632516" ixy="-9.95334457215558E-13" ixz="4.5065584441071E-14"
+               iyy="0.0168929806990138" iyz="1.69039962406978E-11" izz="0.0330384514494543"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/left_wheel_link.STL"/>
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/left_wheel_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========================================
+       左轮关节 (left_wheel_joint)
+       连接 left_link 和 left_wheel_link
+       ======================================== -->
+  <joint name="left_wheel_joint" type="continuous">
+    <!-- origin为0表示轮子和轴在同一位置 -->
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="left_link"/>
+    <child link="left_wheel_link"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- ========================================
+       右侧轴 (right_link)
+       ======================================== -->
+  <link name="right_link">
+    <inertial>
+      <origin xyz="0.0226376933793956 -6.93889390390723E-17 -0.0173623066206043" rpy="0 0 0"/>
+      <mass value="0.128539816339745"/>
+      <inertia ixx="0.000118216123210881" ixy="2.96461531539005E-20" ixz="-2.68628817076756E-05"
+               iyy="0.000118552918563736" iyz="7.96210970419042E-20" izz="4.57138212923579E-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/right_link.STL"/>
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/right_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========================================
+       右髋关节 (right_hip_joint)
+       连接 base_link 和 right_link
+       ======================================== -->
+  <joint name="right_hip_joint" type="continuous">
+    <origin xyz="-0.048652 -0.015 0.13732" rpy="-3.0572 0 -1.5708"/>
+    <parent link="base_link"/>
+    <child link="right_link"/>
+
+    <!-- ⚠️ 注意：右髋关节的轴向是 [1, 0, 0]（绕X轴）
+         与左髋关节的 [0, 0, 1]（绕Z轴）不同 -->
+    <axis xyz="1 0 0"/>
+  </joint>
+
+  <!-- ========================================
+       右轮 (right_wheel_link)
+       ======================================== -->
+  <link name="right_wheel_link">
+    <inertial>
+      <origin xyz="-4.89339124776222E-12 1.85397498786433E-06 -0.0149999999166964" rpy="0 0 0"/>
+      <mass value="2.66875504346553"/>
+      <inertia ixx="0.0168925048632516" ixy="-9.95331855130344E-13" ixz="4.50674460995543E-14"
+               iyy="0.0168929806990137" iyz="1.69040015746446E-11" izz="0.0330384514494543"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/right_wheel_link.STL"/>
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/right_wheel_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========================================
+       右轮关节 (right_wheel_joint)
+       连接 right_link 和 right_wheel_link
+       ======================================== -->
+  <joint name="right_wheel_joint" type="continuous">
+    <origin xyz="0 0 -0.05" rpy="-1.5708 1.0128 -1.5708"/>
+    <parent link="right_link"/>
+    <child link="right_wheel_link"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+</robot>
+
+<!-- ========================================
+     修改指南
+     ========================================
+
+     1. 修改关节轴向：
+        找到对应的 <axis xyz="..."/> 标签
+        [1, 0, 0] = 绕X轴
+        [0, 1, 0] = 绕Y轴
+        [0, 0, 1] = 绕Z轴
+
+     2. 修改关节位置：
+        找到对应的 <origin xyz="..." rpy="..."/>
+        xyz: 位置 [x, y, z] (米)
+        rpy: 姿态 [roll, pitch, yaw] (弧度)
+
+     3. 修改颜色：
+        找到 <color rgba="..."/>
+        rgba: [红, 绿, 蓝, 透明度]，范围0-1
+        例如：rgba="1 0 0 1" = 红色
+
+     4. 修改关节类型：
+        type="continuous" - 连续旋转
+        type="revolute" - 有限位旋转
+        type="prismatic" - 移动关节
+        type="fixed" - 固定
+
+     5. 添加关节限位（仅revolute类型）：
+        <limit lower="-1.57" upper="1.57" effort="100" velocity="10"/>
+
+     ======================================== -->
