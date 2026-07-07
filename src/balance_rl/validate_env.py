@@ -1,8 +1,8 @@
 """
 只实例化环境、跑几步随机动作, 校验域随机化 EventCfg 配置无误(不训练、不保存模型)。
 用法(conda env):
-  cd /home/lbc/IsaacLab-2.1.0
-  ./isaaclab.sh -p /home/lbc/桌面/机器人作业/scripts/balance_rl/validate_env.py --headless
+  cd <IsaacLab 安装目录>
+  ./isaaclab.sh -p <仓库>/src/balance_rl/validate_env.py --headless
 """
 import argparse
 from isaaclab.app import AppLauncher

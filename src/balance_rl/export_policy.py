@@ -19,11 +19,13 @@
 """
 
 import argparse
+import os
 import numpy as np
 import torch
 
-DEF_CKPT = "/home/lbc/桌面/机器人作业/scripts/balance_rl/logs/two_wheel_balance/model_final.pt"
-DEF_OUT = "/home/lbc/桌面/机器人作业/scripts/balance_rl/policy_actor.npz"
+_HERE = os.path.dirname(os.path.abspath(__file__))
+DEF_CKPT = os.path.join(_HERE, "logs", "two_wheel_balance", "model_final.pt")
+DEF_OUT = os.path.join(_HERE, "policy_actor.npz")
 
 
 def find_normalizer(ckpt):

@@ -6,11 +6,12 @@ MJCF importer 生成的 USD 在 Robot 下有 worldBody + chassis 两个候选根
 本脚本: 打印 prim 树, 找到 ArticulationRootAPI 在哪, 把它规整到唯一根。
 
 运行:
-  cd /home/lbc/IsaacLab-2.1.0
-  ./isaaclab.sh -p /home/lbc/桌面/机器人作业/scripts/balance_rl/fix_usd_root.py
+  cd <IsaacLab 安装目录>
+  ./isaaclab.sh -p <仓库>/src/balance_rl/fix_usd_root.py
 """
 
 import argparse
+import os
 from isaaclab.app import AppLauncher
 parser = argparse.ArgumentParser()
 AppLauncher.add_app_launcher_args(parser)
@@ -19,7 +20,8 @@ app = AppLauncher(args).app
 
 from pxr import Usd, UsdPhysics, Sdf
 
-USD = "/home/lbc/桌面/机器人作业/models/combined/scene_train_full.usd"
+_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+USD = os.path.join(_ROOT, "models", "combined", "scene_train_full.usd")
 stage = Usd.Stage.Open(USD)
 
 print("\n===== prim 树 + ArticulationRoot 标记 =====")

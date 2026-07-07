@@ -11,8 +11,11 @@
 注: scene_train_full.xml 是给Isaac转USD用的(无freejoint), 这里给MuJoCo部署版加回freejoint。
 """
 
-SRC = "/home/lbc/桌面/机器人作业/models/combined/scene_train_full.xml"
-DST = "/home/lbc/桌面/机器人作业/models/combined/deploy_full.xml"
+import os
+
+_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+SRC = os.path.join(_ROOT, "models", "combined", "scene_train_full.xml")
+DST = os.path.join(_ROOT, "models", "combined", "deploy_full.xml")
 
 with open(SRC) as f:
     txt = f.read()

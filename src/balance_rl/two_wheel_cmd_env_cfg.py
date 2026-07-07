@@ -11,11 +11,13 @@
 """
 
 import math
+import os
 import isaaclab.sim as sim_utils
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
 
-USD_PATH = "/home/lbc/桌面/机器人作业/models/combined/scene_train_full.usd"
+_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+USD_PATH = os.path.join(_ROOT, "models", "combined", "scene_train_full.usd")
 
 # 机械臂收拢姿态(质心最低): joint2=2.0, joint3=2.5, 其余0
 ARM_TUCK = {

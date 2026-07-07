@@ -7,8 +7,8 @@
   3. 跑 PPO 训练, 自动保存模型到 logs/
 
 运行(训练, 无渲染更快):
-  cd /home/lbc/IsaacLab-2.1.0
-  ./isaaclab.sh -p /home/lbc/桌面/机器人作业/scripts/balance_rl/train.py --headless
+  cd <IsaacLab 安装目录>
+  ./isaaclab.sh -p <仓库>/src/balance_rl/train_cmd.py --headless
 
 运行(带画面看训练, 较慢):
   ./isaaclab.sh -p .../train.py --num_envs 64
@@ -52,9 +52,9 @@ def main():
     # 稳定性靠: 观测clip±10 + 动作scale减半 + 初始高度0.08(无下落冲击)。
     agent_cfg.policy.init_noise_std = 1.0
 
-    # 日志目录
+    # 日志目录 (与本脚本同级的 logs/)
     log_dir = os.path.join(
-        "/home/lbc/桌面/机器人作业/scripts/balance_rl/logs",
+        os.path.dirname(os.path.abspath(__file__)), "logs",
         agent_cfg.experiment_name,
     )
     os.makedirs(log_dir, exist_ok=True)

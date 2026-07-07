@@ -5,8 +5,8 @@
 检查: 观测维度(应16维=13+3指令)、动作2维、command/reward各项、跑50步不崩。
 
 运行:
-  cd /home/lbc/IsaacLab-2.1.0
-  ./isaaclab.sh -p /home/lbc/桌面/机器人作业/scripts/balance_rl/check_cmd_env.py
+  cd <IsaacLab 安装目录>
+  ./isaaclab.sh -p <仓库>/src/balance_rl/check_cmd_env.py
 """
 
 import argparse

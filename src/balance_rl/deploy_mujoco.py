@@ -16,13 +16,16 @@
 注意: Isaac用PhysX, MuJoCo用自己引擎, 存在sim-to-sim gap, 策略未必完美迁移。
 """
 
+import os
 import numpy as np
 import mujoco
 import mujoco.viewer
 import time
 
-MODEL = "/home/lbc/桌面/机器人作业/models/two_wheel_robot/deploy_chassis.xml"
-POLICY = "/home/lbc/桌面/机器人作业/scripts/balance_rl/policy_actor.npz"
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(os.path.dirname(_HERE))   # src/balance_rl -> src -> 仓库根
+MODEL = os.path.join(_ROOT, "models", "two_wheel_robot", "deploy_chassis.xml")
+POLICY = os.path.join(_HERE, "policy_actor.npz")
 
 ACTION_SCALE = 20.0   # 和训练 JointEffortActionCfg.scale 一致
 # 控制周期须=训练的0.02s。本模型 timestep=0.002, 故 DECIMATION=10 (0.002×10=0.02s=50Hz),

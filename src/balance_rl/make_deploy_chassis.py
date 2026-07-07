@@ -12,8 +12,11 @@
        - 两髋: position 执行器, 高刚度锁在 0
 """
 
-SRC = "/home/lbc/桌面/机器人作业/models/two_wheel_robot/robot.xml"
-DST = "/home/lbc/桌面/机器人作业/models/two_wheel_robot/deploy_chassis.xml"
+import os
+
+_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+SRC = os.path.join(_ROOT, "models", "two_wheel_robot", "robot.xml")
+DST = os.path.join(_ROOT, "models", "two_wheel_robot", "deploy_chassis.xml")
 
 with open(SRC) as f:
     txt = f.read()

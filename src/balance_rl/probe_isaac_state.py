@@ -18,7 +18,7 @@ from rsl_rl.runners import OnPolicyRunner
 cfg = TwoWheelCmdEnvCfg(); cfg.scene.num_envs=4; cfg.sim.device="cuda:0"
 env = ManagerBasedRLEnv(cfg); env = RslRlVecEnvWrapper(env)
 runner = OnPolicyRunner(env, TwoWheelPPORunnerCfg().to_dict(), log_dir=None, device="cuda:0")
-runner.load("/home/lbc/桌面/机器人作业/scripts/balance_rl/logs/two_wheel_cmd/model_final.pt")
+runner.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs", "two_wheel_cmd", "model_final.pt"))
 policy = runner.get_inference_policy(device="cuda:0")
 
 obs,_ = env.get_observations()

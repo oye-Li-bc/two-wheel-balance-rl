@@ -5,17 +5,20 @@
 和训练的区别: 用确定性动作(不加探索噪声), 少量环境, 开渲染。
 
 运行(看画面):
-  cd /home/lbc/IsaacLab-2.1.0
-  ./isaaclab.sh -p /home/lbc/桌面/机器人作业/scripts/balance_rl/play.py --num_envs 16
+  cd <IsaacLab 安装目录>
+  ./isaaclab.sh -p <仓库>/src/balance_rl/play.py --num_envs 16
 """
 
 import argparse
+import os
 from isaaclab.app import AppLauncher
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--num_envs", type=int, default=16)
 parser.add_argument("--checkpoint", type=str,
-                    default="/home/lbc/桌面/机器人作业/scripts/balance_rl/logs/two_wheel_balance/model_final.pt")
+                    default=os.path.join(_HERE, "logs", "two_wheel_balance", "model_final.pt"))
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 # 回放要看画面, 强制非 headless

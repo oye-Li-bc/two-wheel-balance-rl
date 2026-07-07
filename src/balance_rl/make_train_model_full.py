@@ -13,8 +13,11 @@
 收拢姿态(第2步会用): arm_joint2=2.0, arm_joint3=2.5, 其余0 → 整机质心最低0.309m
 """
 
-SRC = "/home/lbc/桌面/机器人作业/models/combined/scene.xml"
-DST = "/home/lbc/桌面/机器人作业/models/combined/scene_train_full.xml"
+import os
+
+_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+SRC = os.path.join(_ROOT, "models", "combined", "scene.xml")
+DST = os.path.join(_ROOT, "models", "combined", "scene_train_full.xml")
 
 with open(SRC) as f:
     lines = f.readlines()

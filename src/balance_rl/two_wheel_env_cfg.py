@@ -12,12 +12,16 @@
 """
 
 import math
+import os
 import isaaclab.sim as sim_utils
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
 
+# 仓库根目录 (src/balance_rl/ -> src -> 仓库根)
+_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 # 底盘 USD(浮动基座、力矩驱动)
-USD_PATH = "/home/lbc/桌面/机器人作业/models/two_wheel_robot/two_wheel.usd"
+USD_PATH = os.path.join(_ROOT, "models", "two_wheel_robot", "two_wheel.usd")
 
 # ---------- 1. 机器人配置 ----------
 # 初始 z=0.18m: 让轮子刚好接触地面(轮轴高度≈轮半径), 车身大致直立。

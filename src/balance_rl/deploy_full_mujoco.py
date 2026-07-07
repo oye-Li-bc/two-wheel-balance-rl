@@ -13,13 +13,16 @@
 可改 CMD 测试不同速度指令。
 """
 
+import os
 import numpy as np
 import mujoco
 import mujoco.viewer
 import time
 
-MODEL = "/home/lbc/桌面/机器人作业/models/combined/deploy_full.xml"
-POLICY = "/home/lbc/桌面/机器人作业/scripts/balance_rl/policy_cmd_actor.npz"
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(os.path.dirname(_HERE))
+MODEL = os.path.join(_ROOT, "models", "combined", "deploy_full.xml")
+POLICY = os.path.join(_HERE, "policy_cmd_actor.npz")
 
 ACTION_SCALE = 20.0
 DECIMATION = 4

@@ -51,7 +51,7 @@ policy_actor.npz         # 导出的部署策略（当前为域随机化最终�
 1）训练（约数分钟）：
 ```bash
 conda activate env_isaaclab
-cd /home/lbc/IsaacLab-2.1.0
+cd <IsaacLab 安装目录>
 ./isaaclab.sh -p <本目录>/train.py --headless --max_iterations 500
 ```
 

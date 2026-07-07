@@ -8,7 +8,7 @@
       * 存活时间(倾角超过 FALL_TILT 判定倒下, 提前结束)
       * 平均/最大倾角(度)
       * 水平位置漂移(m) —— 平衡车理想是原地站住, 漂移越小越好
-  - 打印逐次结果 + 汇总, 这些数字直接进作业报告
+  - 打印逐次结果 + 汇总, 这些数字直接进报告
 
 用法:
   python3 verify_balance.py
@@ -16,11 +16,14 @@
 """
 
 import argparse
+import os
 import numpy as np
 import mujoco
 
-MODEL = "/home/lbc/桌面/机器人作业/models/two_wheel_robot/deploy_chassis.xml"
-POLICY = "/home/lbc/桌面/机器人作业/scripts/balance_rl/policy_actor.npz"
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(os.path.dirname(_HERE))   # src/balance_rl -> src -> 仓库根
+MODEL = os.path.join(_ROOT, "models", "two_wheel_robot", "deploy_chassis.xml")
+POLICY = os.path.join(_HERE, "policy_actor.npz")
 
 ACTION_SCALE = 20.0     # 和训练 JointEffortActionCfg.scale 一致
 # ★控制周期必须和训练一致 = 0.02s(50Hz)。
