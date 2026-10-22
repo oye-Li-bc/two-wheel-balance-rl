@@ -1,8 +1,21 @@
-# 基于深度强化学习的两轮移动机器人自平衡控制
+# Two-Wheel Balance · Deep RL
+
+![Two-Wheel Balance · Deep RL 项目封面](.github/readme/cover.svg)
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-516d64)](LICENSE)
+![PPO](https://img.shields.io/badge/PPO-project-516d64)
+[![Portfolio](https://img.shields.io/badge/oye-portfolio-516d64)](https://oye-li-bc.github.io/)
 
 > Deep Reinforcement Learning for Self-Balancing Control of a Two-Wheeled Mobile Robot
 
 用近端策略优化（PPO）在 **NVIDIA Isaac Lab**（PhysX）大规模并行仿真中，端到端学习仅靠两轮力矩保持车身直立的控制策略，无需精确解析动力学建模；随后迁移部署到 **MuJoCo** 做 sim-to-sim 验证，形成从建模、训练到跨仿真器部署的完整闭环。
+
+**[实验结果](#results) · [结果图表](#figures) · [快速开始](#quickstart) · [技术报告](docs/report.pdf) · [详细复现](src/balance_rl/README.md)**
+
+<picture>
+  <source media="(max-width: 600px)" srcset=".github/readme/workflow-mobile.svg">
+  <img src=".github/readme/workflow.svg" alt="项目学习与运行路线概览，完整步骤及依赖见下文说明">
+</picture>
 
 ## 亮点
 
@@ -12,6 +25,8 @@
 - **域随机化提升鲁棒性**：随机化摩擦、连杆质量、关节参数并施加周期外力，MuJoCo 迁移下平均维持时间近乎翻倍。
 - **sim-to-sim 部署**：将观测归一化解析折叠进网络首层（误差 <1e-7），部署端纯 numpy 前向，无需 torch。
 
+<a id="results"></a>
+
 ## 关键结果
 
 | 指标 | 初版策略 | + 奖励塑形 + 域随机化（修正模型） |
@@ -20,6 +35,26 @@
 | 车身平均倾角 | 7.4° | **≈4°** |
 
 Isaac（训练器）中策略可无限期保持平衡并从随机推力中恢复。详见 [`docs/report.pdf`](docs/report.pdf)。
+
+
+<a id="figures"></a>
+
+## 结果图表
+
+以下为仓库已有的实验图，图中配置与统计口径见[技术报告](docs/report.pdf)。
+
+![MuJoCo 中奖励塑形与域随机化配置的平均维持时间对比](docs/figures/fig3_sim2sim.png)
+
+<details>
+<summary>展开训练曲线与稳定性对比</summary>
+
+![最终策略训练奖励与跌倒率曲线](docs/figures/fig1_train_curve.png)
+
+![激进与温和域随机化配置的训练稳定性对比](docs/figures/fig2_stability.png)
+
+</details>
+
+<a id="structure"></a>
 
 ## 目录结构
 
@@ -39,6 +74,8 @@ two-wheel-balance-rl/
 ├── docs/                    # 技术报告（docx/pdf）、配图与生成脚本
 └── requirements.txt
 ```
+
+<a id="quickstart"></a>
 
 ## 快速开始
 
@@ -68,3 +105,7 @@ python src/balance_rl/deploy_mujoco.py
 ## 许可证
 
 本项目基于 [MIT License](LICENSE) 开源。
+
+---
+
+[个人作品集](https://oye-li-bc.github.io/) · [可编辑封面与配图说明](.github/readme/README.md)
